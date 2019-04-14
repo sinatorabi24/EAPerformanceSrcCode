@@ -34,31 +34,31 @@
   <ItemGroup>
     <Reference Include="AutonomousVehicleLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DLLs\AutonomousVehicleLibrary.dll</HintPath>
+      <HintPath>..\DLLs\AutonomousVehicleLibrary.dll</HintPath>
     </Reference>
     <Reference Include="CustomUserControlsLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DLLs\CustomUserControlsLibrary.dll</HintPath>
+      <HintPath>..\DLLs\CustomUserControlsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="MathematicsLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DLLs\MathematicsLibrary.dll</HintPath>
+      <HintPath>..\DLLs\MathematicsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="ObjectSerializer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DLLs\ObjectSerializer.dll</HintPath>
+      <HintPath>..\DLLs\ObjectSerializer.dll</HintPath>
     </Reference>
     <Reference Include="PlotLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DLLs\PlotLibrary.dll</HintPath>
+      <HintPath>..\DLLs\PlotLibrary.dll</HintPath>
     </Reference>
     <Reference Include="PostScriptLibrary, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DLLs\PostScriptLibrary.dll</HintPath>
+      <HintPath>..\DLLs\PostScriptLibrary.dll</HintPath>
     </Reference>
     <Reference Include="StochasticOptimizationLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DLLs\StochasticOptimizationLibrary.dll</HintPath>
+      <HintPath>..\DLLs\StochasticOptimizationLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
