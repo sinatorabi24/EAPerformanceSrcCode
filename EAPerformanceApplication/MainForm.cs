@@ -33,7 +33,7 @@ namespace EAPerformanceApplication
         private const double METRIC_STEP = 0.1;
         #endregion
 
-        private string defaultPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "..\\..\\..\\..\\Data");
+        private string defaultPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "..\\..\\..\\Data");
         private string batchPath;
         private MetricMap metricMap;
         private MetricPath metricPath;
@@ -57,7 +57,7 @@ namespace EAPerformanceApplication
 
         private void Initialize()
         {
-            defaultPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "..\\..\\..\\..\\Data");
+            defaultPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "..\\..\\..\\Data");
             batchPath = "\\batchrun" + DateTime.Now.ToString("yyyyMMddHHmmss_fff");
             optimizationSettings = new PiecewiseLinearSpeedProfileOptimizationSettings();
             optimizationSettings.SetDefault();
