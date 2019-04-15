@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace EAPerformanceApplication.AddedClasses.Optimization
 {
-    public enum OptimizationMethod { RMHC, GA };    
+    public enum OptimizationMethod { GA };    
 }

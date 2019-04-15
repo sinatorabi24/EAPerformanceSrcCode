@@ -48,6 +48,7 @@
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.optimizationMethodComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.setOptimizationParameterButton = new System.Windows.Forms.ToolStripButton();
+            this.logDataButton = new System.Windows.Forms.ToolStripButton();
             this.initializeButton = new System.Windows.Forms.ToolStripButton();
             this.startOptimizationButton = new System.Windows.Forms.ToolStripButton();
             this.stopOptimizationButton = new System.Windows.Forms.ToolStripButton();
@@ -62,7 +63,6 @@
             this.speedProfilePlot2DPanel = new PlotLibrary.Plot2DPanel();
             this.roadPlot2DPanel = new PlotLibrary.Plot2DPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.logDataButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -131,7 +131,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -152,7 +152,7 @@
             this.tabControl1.Controls.Add(this.batchRunOptimizationTabPage);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(625, 485);
@@ -164,9 +164,9 @@
             this.singleRunOptimizationTabPage.Controls.Add(this.toolStrip2);
             this.singleRunOptimizationTabPage.Controls.Add(this.toolStrip1);
             this.singleRunOptimizationTabPage.Location = new System.Drawing.Point(4, 22);
-            this.singleRunOptimizationTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.singleRunOptimizationTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.singleRunOptimizationTabPage.Name = "singleRunOptimizationTabPage";
-            this.singleRunOptimizationTabPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.singleRunOptimizationTabPage.Padding = new System.Windows.Forms.Padding(2);
             this.singleRunOptimizationTabPage.Size = new System.Drawing.Size(617, 459);
             this.singleRunOptimizationTabPage.TabIndex = 0;
             this.singleRunOptimizationTabPage.Text = "Single run";
@@ -176,7 +176,7 @@
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer3.Location = new System.Drawing.Point(2, 52);
-            this.splitContainer3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer3.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer3.Name = "splitContainer3";
             // 
             // splitContainer3.Panel1
@@ -198,7 +198,7 @@
             this.singleRunOptimizationEvaluatedIndListBox.ForeColor = System.Drawing.Color.Lime;
             this.singleRunOptimizationEvaluatedIndListBox.FormattingEnabled = true;
             this.singleRunOptimizationEvaluatedIndListBox.Location = new System.Drawing.Point(0, 0);
-            this.singleRunOptimizationEvaluatedIndListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.singleRunOptimizationEvaluatedIndListBox.Margin = new System.Windows.Forms.Padding(2);
             this.singleRunOptimizationEvaluatedIndListBox.Name = "singleRunOptimizationEvaluatedIndListBox";
             this.singleRunOptimizationEvaluatedIndListBox.Size = new System.Drawing.Size(145, 405);
             this.singleRunOptimizationEvaluatedIndListBox.TabIndex = 0;
@@ -210,7 +210,7 @@
             this.singleRunOptimizationProgressListBox.ForeColor = System.Drawing.Color.Lime;
             this.singleRunOptimizationProgressListBox.FormattingEnabled = true;
             this.singleRunOptimizationProgressListBox.Location = new System.Drawing.Point(0, 0);
-            this.singleRunOptimizationProgressListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.singleRunOptimizationProgressListBox.Margin = new System.Windows.Forms.Padding(2);
             this.singleRunOptimizationProgressListBox.Name = "singleRunOptimizationProgressListBox";
             this.singleRunOptimizationProgressListBox.Size = new System.Drawing.Size(465, 405);
             this.singleRunOptimizationProgressListBox.TabIndex = 0;
@@ -279,8 +279,7 @@
             // optimizationMethodComboBox
             // 
             this.optimizationMethodComboBox.Items.AddRange(new object[] {
-            "GA",
-            "RMHC"});
+            "GA"});
             this.optimizationMethodComboBox.Name = "optimizationMethodComboBox";
             this.optimizationMethodComboBox.Size = new System.Drawing.Size(75, 25);
             // 
@@ -293,6 +292,16 @@
             this.setOptimizationParameterButton.Size = new System.Drawing.Size(154, 22);
             this.setOptimizationParameterButton.Text = "Set optimization parameter";
             this.setOptimizationParameterButton.Click += new System.EventHandler(this.setOptimizationParameterButton_Click);
+            // 
+            // logDataButton
+            // 
+            this.logDataButton.CheckOnClick = true;
+            this.logDataButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.logDataButton.Image = ((System.Drawing.Image)(resources.GetObject("logDataButton.Image")));
+            this.logDataButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.logDataButton.Name = "logDataButton";
+            this.logDataButton.Size = new System.Drawing.Size(57, 22);
+            this.logDataButton.Text = "Log data";
             // 
             // initializeButton
             // 
@@ -331,10 +340,10 @@
             this.batchRunOptimizationTabPage.Controls.Add(this.batchRunProgressListBox);
             this.batchRunOptimizationTabPage.Controls.Add(this.toolStrip3);
             this.batchRunOptimizationTabPage.Location = new System.Drawing.Point(4, 22);
-            this.batchRunOptimizationTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.batchRunOptimizationTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.batchRunOptimizationTabPage.Name = "batchRunOptimizationTabPage";
-            this.batchRunOptimizationTabPage.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.batchRunOptimizationTabPage.Size = new System.Drawing.Size(618, 460);
+            this.batchRunOptimizationTabPage.Padding = new System.Windows.Forms.Padding(2);
+            this.batchRunOptimizationTabPage.Size = new System.Drawing.Size(617, 459);
             this.batchRunOptimizationTabPage.TabIndex = 1;
             this.batchRunOptimizationTabPage.Text = "Batch run";
             this.batchRunOptimizationTabPage.UseVisualStyleBackColor = true;
@@ -346,9 +355,9 @@
             this.batchRunProgressListBox.ForeColor = System.Drawing.Color.Lime;
             this.batchRunProgressListBox.FormattingEnabled = true;
             this.batchRunProgressListBox.Location = new System.Drawing.Point(2, 27);
-            this.batchRunProgressListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.batchRunProgressListBox.Margin = new System.Windows.Forms.Padding(2);
             this.batchRunProgressListBox.Name = "batchRunProgressListBox";
-            this.batchRunProgressListBox.Size = new System.Drawing.Size(614, 431);
+            this.batchRunProgressListBox.Size = new System.Drawing.Size(613, 430);
             this.batchRunProgressListBox.TabIndex = 1;
             // 
             // toolStrip3
@@ -361,7 +370,7 @@
             this.startBatchRunButton});
             this.toolStrip3.Location = new System.Drawing.Point(2, 2);
             this.toolStrip3.Name = "toolStrip3";
-            this.toolStrip3.Size = new System.Drawing.Size(614, 25);
+            this.toolStrip3.Size = new System.Drawing.Size(613, 25);
             this.toolStrip3.TabIndex = 0;
             this.toolStrip3.Text = "toolStrip3";
             // 
@@ -397,7 +406,7 @@
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(2);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -438,7 +447,7 @@
             this.speedProfilePlot2DPanel.MajorHorizontalTickMarksVisible = true;
             this.speedProfilePlot2DPanel.MajorVerticalTickMarkSpacing = 0D;
             this.speedProfilePlot2DPanel.MajorVerticalTickMarksVisible = true;
-            this.speedProfilePlot2DPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.speedProfilePlot2DPanel.Margin = new System.Windows.Forms.Padding(2);
             this.speedProfilePlot2DPanel.Name = "speedProfilePlot2DPanel";
             this.speedProfilePlot2DPanel.PlotBackColor = System.Drawing.Color.White;
             this.speedProfilePlot2DPanel.RightFrameWidth = 45F;
@@ -478,7 +487,7 @@
             this.roadPlot2DPanel.MajorHorizontalTickMarksVisible = true;
             this.roadPlot2DPanel.MajorVerticalTickMarkSpacing = 0D;
             this.roadPlot2DPanel.MajorVerticalTickMarksVisible = true;
-            this.roadPlot2DPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.roadPlot2DPanel.Margin = new System.Windows.Forms.Padding(2);
             this.roadPlot2DPanel.Name = "roadPlot2DPanel";
             this.roadPlot2DPanel.PlotBackColor = System.Drawing.Color.White;
             this.roadPlot2DPanel.RightFrameWidth = 45F;
@@ -497,16 +506,6 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
-            // logDataButton
-            // 
-            this.logDataButton.CheckOnClick = true;
-            this.logDataButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.logDataButton.Image = ((System.Drawing.Image)(resources.GetObject("logDataButton.Image")));
-            this.logDataButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.logDataButton.Name = "logDataButton";
-            this.logDataButton.Size = new System.Drawing.Size(57, 22);
-            this.logDataButton.Text = "Log data";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -515,7 +514,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "Main form";
             this.menuStrip1.ResumeLayout(false);

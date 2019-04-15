@@ -180,58 +180,6 @@ namespace EAPerformanceApplication.AddedClasses.Optimization
                         (double)population[0].ParameterList.Count;
         }
 
-        private void SetUpRMHCAlgorithm()
-        {
-            populationSize = 1;
-            creepMutationRate = optimizationSettings.CreepMutationRate;
-
-            int numberOfLineSegments = optimizationSettings.NumberOfRoadSegments;
-
-            double minimumParameterValue = optimizationSettings.MinimumSpeedValue;
-            double maximumParameterValue = optimizationSettings.MaximumSpeedValue;
-            double discretizationStep = optimizationSettings.SpeedIncrement;
-            double desiredAverageSpeed = optimizationSettings.DesiredAverageSpeed;
-
-            possibleSpeedList = new List<double>();
-            double initialSpeed = minimumParameterValue;
-            possibleSpeedList.Add(initialSpeed);
-
-            while (initialSpeed < maximumParameterValue)
-            {
-                initialSpeed += discretizationStep;
-                initialSpeed = Math.Min(initialSpeed, maximumParameterValue);
-                possibleSpeedList.Add(initialSpeed);
-            }
-
-            //returns the index of desired average speed from the possible speed list (generated above). Required for optimizaiton.
-            int desiredAverageSpeedIndex = possibleSpeedList.FindIndex(s => s == desiredAverageSpeed);
-
-            for (int ii = 0; ii < populationSize; ii++)
-            {
-                OptimizableStructure individual = new OptimizableStructure();
-
-                IntParameter p0ParameterFirst = new IntParameter();
-                p0ParameterFirst.MaximumValue = possibleSpeedList.Count - 1;
-                p0ParameterFirst.MinimumValue = 0;
-                p0ParameterFirst.ParameterValue = desiredAverageSpeedIndex;
-                individual.ParameterList.Add(p0ParameterFirst);
-
-                for (int jj = 0; jj < numberOfLineSegments; jj++)
-                {
-                    IntParameter p0Parameter = new IntParameter();
-                    p0Parameter.MaximumValue = possibleSpeedList.Count - 1;
-                    p0Parameter.MinimumValue = 0;
-                    p0Parameter.ParameterValue = desiredAverageSpeedIndex;
-                    individual.ParameterList.Add(p0Parameter);
-                }
-                population.Add(individual.Copy());
-                scoreList.Add(double.MinValue);
-            }
-
-            mutationRate = optimizationSettings.RelativeMutationProbability /
-                        (double)population[0].ParameterList.Count;          
-        }
-
         private void OptimizationLoop()
         {
             population = new List<OptimizableStructure>();
@@ -372,75 +320,7 @@ namespace EAPerformanceApplication.AddedClasses.Optimization
                     }
                 }
                 OnStopped();
-            }
-            else if(optimizationMethod == OptimizationMethod.RMHC)
-            {
-                stopWatch.Start();
-                running = true;
-                double elapsedOptimizationTime;
-                SetUpRMHCAlgorithm();
-
-                iterationIndex = 0;
-
-                double minimumParameterValue = optimizationSettings.MinimumSpeedValue;
-                double maximumParameterValue = optimizationSettings.MaximumSpeedValue;
-                double desiredAverageSpeed = optimizationSettings.DesiredAverageSpeed;
-
-                speedProfileEvaluator = new PiecewiseLinearSpeedProfileEvaluator();
-                speedProfileEvaluator.AssignMetricMap(metricMap);
-                speedProfileEvaluator.AssignMetricPath(metricPath);
-                speedProfileEvaluator.MaximumAllowedSpeed = maximumParameterValue;
-                speedProfileEvaluator.MinimumAllowedSpeed = minimumParameterValue;
-                speedProfileEvaluator.DesiredAverageSpeed = desiredAverageSpeed;
-                speedProfileEvaluator.AssignPossibleSpeedList(possibleSpeedList);
-
-                optimizedSpeedProfile = population[0].Copy();
-                bestScore = speedProfileEvaluator.EvaluateGA(optimizedSpeedProfile);
-
-                while (running)
-                {
-                    OptimizableStructure individual = optimizedSpeedProfile.Copy();
-                    OptimizableStructure mutatedIndividual = (OptimizableStructure)Modification.Execute(individual,
-                            mutationRate, creepMutationRate, randomNumberGenerator);
-                    speedProfileEvaluator = new PiecewiseLinearSpeedProfileEvaluator();
-                    speedProfileEvaluator.AssignMetricMap(metricMap);
-                    speedProfileEvaluator.AssignMetricPath(metricPath);
-                    speedProfileEvaluator.MaximumAllowedSpeed = maximumParameterValue;
-                    speedProfileEvaluator.MinimumAllowedSpeed = minimumParameterValue;
-                    speedProfileEvaluator.DesiredAverageSpeed = desiredAverageSpeed;
-                    speedProfileEvaluator.AssignPossibleSpeedList(possibleSpeedList);
-
-                    numberOfEvaluatedIndividuals++;
-                    double score = speedProfileEvaluator.EvaluateGA(mutatedIndividual);
-                    cumulativeScore += score;
-
-                    List<int> individualSpeedIndexList = new List<int>();
-                    for (int kk = 0; kk < individual.ParameterList.Count; kk++)
-                    {
-                        individualSpeedIndexList.Add(((IntParameter)individual.ParameterList[kk]).ParameterValue);
-                    }
-                    long speedProfileIndex = ConvertToBase10(individualSpeedIndexList);
-
-                    OnIndividualEvaluated(individualSpeedIndexList, speedProfileIndex, speedProfileEvaluator.AverageSpeed, score, 
-                        mutatedIndividual.Copy(), numberOfEvaluatedIndividuals, numberOfEvaluatedIndividuals, true);
-
-                    if (score > bestScore)
-                    {
-                        OnNewBestIndividualFound(individualSpeedIndexList, speedProfileIndex, speedProfileEvaluator.AverageSpeed, score,
-                        mutatedIndividual.Copy(), numberOfEvaluatedIndividuals, numberOfEvaluatedIndividuals,true);
-                        bestScore = score;
-                        optimizedSpeedProfile = mutatedIndividual.Copy();
-                    }
-                    
-                    elapsedOptimizationTime = stopWatch.ElapsedTicks / (double)Stopwatch.Frequency;
-                    if (elapsedOptimizationTime >= optimizationTime | numberOfEvaluatedIndividuals > optimizationSettings.NumberOfGenerations * optimizationSettings.PopulationSize)
-                    {
-                        running = false;
-                        OnStopped();
-                        break;
-                    }
-                }
-            }           
+            }                  
             OnStopped();
         }
 
