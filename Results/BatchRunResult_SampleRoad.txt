@@ -1,0 +1,16 @@
+%% Optimization method: GA
+%% Optimization settings: 
+%% Number of generations: 10
+%% Population size: 20
+%% Tournament selection rate: 0.90
+%% Tournament size: 5
+%% Crossover probability: 1.00
+%% Relative mutation rate: 2.50
+%% Creep mutation rate: 0.50
+%% Road file name SampleRoad
+%% RunID, BestFitness(=1/fc), AverageFitness, [variables], IndexOfTheVariableVector, NumberOfEvaluatedIndividuals 
+  0    1.921044    0.468943 [8 6 7 6 4 4 4 4]      21525083    200
+  1    2.405100    0.408548 [4 7 8 6 7 5 3 0]       1940584    200
+  2    2.393581    0.606249 [7 7 7 5 8 5 2 0]       1414897    200
+  3    2.379702    0.560362 [8 7 8 6 4 5 3 1]       6703874    200
+  4    2.189969    0.560178 [7 6 6 6 4 7 3 0]       2038831    200

@@ -36,26 +36,9 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.singleRunOptimizationTabPage = new System.Windows.Forms.TabPage();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.singleRunOptimizationEvaluatedIndListBox = new System.Windows.Forms.ListBox();
-            this.singleRunOptimizationProgressListBox = new System.Windows.Forms.ListBox();
-            this.toolStrip2 = new System.Windows.Forms.ToolStrip();
-            this.selectedSpeedProfileStatusLabel = new System.Windows.Forms.ToolStripLabel();
-            this.evaluateSpeedProfileButton = new System.Windows.Forms.ToolStripButton();
-            this.fuelConsumptionLabel = new System.Windows.Forms.ToolStripLabel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.optimizationMethodComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.setOptimizationParameterButton = new System.Windows.Forms.ToolStripButton();
-            this.logDataButton = new System.Windows.Forms.ToolStripButton();
-            this.initializeButton = new System.Windows.Forms.ToolStripButton();
-            this.startOptimizationButton = new System.Windows.Forms.ToolStripButton();
-            this.stopOptimizationButton = new System.Windows.Forms.ToolStripButton();
             this.batchRunOptimizationTabPage = new System.Windows.Forms.TabPage();
             this.batchRunProgressListBox = new System.Windows.Forms.ListBox();
             this.toolStrip3 = new System.Windows.Forms.ToolStrip();
-            this.batchRunOptimizationMethodLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.numberOfBatchRunsTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.startBatchRunButton = new System.Windows.Forms.ToolStripButton();
@@ -63,19 +46,13 @@
             this.speedProfilePlot2DPanel = new PlotLibrary.Plot2DPanel();
             this.roadPlot2DPanel = new PlotLibrary.Plot2DPanel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.setOptimizationParameterButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.singleRunOptimizationTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
-            this.toolStrip2.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.batchRunOptimizationTabPage.SuspendLayout();
             this.toolStrip3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -148,7 +125,6 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.singleRunOptimizationTabPage);
             this.tabControl1.Controls.Add(this.batchRunOptimizationTabPage);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -157,183 +133,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(625, 485);
             this.tabControl1.TabIndex = 0;
-            // 
-            // singleRunOptimizationTabPage
-            // 
-            this.singleRunOptimizationTabPage.Controls.Add(this.splitContainer3);
-            this.singleRunOptimizationTabPage.Controls.Add(this.toolStrip2);
-            this.singleRunOptimizationTabPage.Controls.Add(this.toolStrip1);
-            this.singleRunOptimizationTabPage.Location = new System.Drawing.Point(4, 22);
-            this.singleRunOptimizationTabPage.Margin = new System.Windows.Forms.Padding(2);
-            this.singleRunOptimizationTabPage.Name = "singleRunOptimizationTabPage";
-            this.singleRunOptimizationTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.singleRunOptimizationTabPage.Size = new System.Drawing.Size(617, 459);
-            this.singleRunOptimizationTabPage.TabIndex = 0;
-            this.singleRunOptimizationTabPage.Text = "Single run";
-            this.singleRunOptimizationTabPage.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(2, 52);
-            this.splitContainer3.Margin = new System.Windows.Forms.Padding(2);
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.singleRunOptimizationEvaluatedIndListBox);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.singleRunOptimizationProgressListBox);
-            this.splitContainer3.Size = new System.Drawing.Size(613, 405);
-            this.splitContainer3.SplitterDistance = 145;
-            this.splitContainer3.SplitterWidth = 3;
-            this.splitContainer3.TabIndex = 2;
-            // 
-            // singleRunOptimizationEvaluatedIndListBox
-            // 
-            this.singleRunOptimizationEvaluatedIndListBox.BackColor = System.Drawing.SystemColors.InfoText;
-            this.singleRunOptimizationEvaluatedIndListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.singleRunOptimizationEvaluatedIndListBox.ForeColor = System.Drawing.Color.Lime;
-            this.singleRunOptimizationEvaluatedIndListBox.FormattingEnabled = true;
-            this.singleRunOptimizationEvaluatedIndListBox.Location = new System.Drawing.Point(0, 0);
-            this.singleRunOptimizationEvaluatedIndListBox.Margin = new System.Windows.Forms.Padding(2);
-            this.singleRunOptimizationEvaluatedIndListBox.Name = "singleRunOptimizationEvaluatedIndListBox";
-            this.singleRunOptimizationEvaluatedIndListBox.Size = new System.Drawing.Size(145, 405);
-            this.singleRunOptimizationEvaluatedIndListBox.TabIndex = 0;
-            // 
-            // singleRunOptimizationProgressListBox
-            // 
-            this.singleRunOptimizationProgressListBox.BackColor = System.Drawing.SystemColors.InfoText;
-            this.singleRunOptimizationProgressListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.singleRunOptimizationProgressListBox.ForeColor = System.Drawing.Color.Lime;
-            this.singleRunOptimizationProgressListBox.FormattingEnabled = true;
-            this.singleRunOptimizationProgressListBox.Location = new System.Drawing.Point(0, 0);
-            this.singleRunOptimizationProgressListBox.Margin = new System.Windows.Forms.Padding(2);
-            this.singleRunOptimizationProgressListBox.Name = "singleRunOptimizationProgressListBox";
-            this.singleRunOptimizationProgressListBox.Size = new System.Drawing.Size(465, 405);
-            this.singleRunOptimizationProgressListBox.TabIndex = 0;
-            this.singleRunOptimizationProgressListBox.SelectedIndexChanged += new System.EventHandler(this.singleRunOptimizationProgressListBox_SelectedIndexChanged);
-            // 
-            // toolStrip2
-            // 
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectedSpeedProfileStatusLabel,
-            this.evaluateSpeedProfileButton,
-            this.fuelConsumptionLabel});
-            this.toolStrip2.Location = new System.Drawing.Point(2, 27);
-            this.toolStrip2.Name = "toolStrip2";
-            this.toolStrip2.Size = new System.Drawing.Size(613, 25);
-            this.toolStrip2.TabIndex = 1;
-            this.toolStrip2.Text = "toolStrip2";
-            // 
-            // selectedSpeedProfileStatusLabel
-            // 
-            this.selectedSpeedProfileStatusLabel.Enabled = false;
-            this.selectedSpeedProfileStatusLabel.Name = "selectedSpeedProfileStatusLabel";
-            this.selectedSpeedProfileStatusLabel.Size = new System.Drawing.Size(154, 22);
-            this.selectedSpeedProfileStatusLabel.Text = "No speed profile is selected.";
-            // 
-            // evaluateSpeedProfileButton
-            // 
-            this.evaluateSpeedProfileButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.evaluateSpeedProfileButton.Enabled = false;
-            this.evaluateSpeedProfileButton.Image = ((System.Drawing.Image)(resources.GetObject("evaluateSpeedProfileButton.Image")));
-            this.evaluateSpeedProfileButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.evaluateSpeedProfileButton.Name = "evaluateSpeedProfileButton";
-            this.evaluateSpeedProfileButton.Size = new System.Drawing.Size(55, 22);
-            this.evaluateSpeedProfileButton.Text = "Evaluate";
-            this.evaluateSpeedProfileButton.Click += new System.EventHandler(this.evaluateSpeedProfileButton_Click);
-            // 
-            // fuelConsumptionLabel
-            // 
-            this.fuelConsumptionLabel.Name = "fuelConsumptionLabel";
-            this.fuelConsumptionLabel.Size = new System.Drawing.Size(131, 22);
-            this.fuelConsumptionLabel.Text = "Fuel consumption: N/A";
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel1,
-            this.optimizationMethodComboBox,
-            this.setOptimizationParameterButton,
-            this.logDataButton,
-            this.initializeButton,
-            this.startOptimizationButton,
-            this.stopOptimizationButton});
-            this.toolStrip1.Location = new System.Drawing.Point(2, 2);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(613, 25);
-            this.toolStrip1.TabIndex = 0;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripLabel1
-            // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(127, 22);
-            this.toolStripLabel1.Text = "Optimization method: ";
-            // 
-            // optimizationMethodComboBox
-            // 
-            this.optimizationMethodComboBox.Items.AddRange(new object[] {
-            "GA"});
-            this.optimizationMethodComboBox.Name = "optimizationMethodComboBox";
-            this.optimizationMethodComboBox.Size = new System.Drawing.Size(75, 25);
-            // 
-            // setOptimizationParameterButton
-            // 
-            this.setOptimizationParameterButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.setOptimizationParameterButton.Image = ((System.Drawing.Image)(resources.GetObject("setOptimizationParameterButton.Image")));
-            this.setOptimizationParameterButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.setOptimizationParameterButton.Name = "setOptimizationParameterButton";
-            this.setOptimizationParameterButton.Size = new System.Drawing.Size(154, 22);
-            this.setOptimizationParameterButton.Text = "Set optimization parameter";
-            this.setOptimizationParameterButton.Click += new System.EventHandler(this.setOptimizationParameterButton_Click);
-            // 
-            // logDataButton
-            // 
-            this.logDataButton.CheckOnClick = true;
-            this.logDataButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.logDataButton.Image = ((System.Drawing.Image)(resources.GetObject("logDataButton.Image")));
-            this.logDataButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.logDataButton.Name = "logDataButton";
-            this.logDataButton.Size = new System.Drawing.Size(57, 22);
-            this.logDataButton.Text = "Log data";
-            // 
-            // initializeButton
-            // 
-            this.initializeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.initializeButton.Image = ((System.Drawing.Image)(resources.GetObject("initializeButton.Image")));
-            this.initializeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.initializeButton.Name = "initializeButton";
-            this.initializeButton.Size = new System.Drawing.Size(54, 22);
-            this.initializeButton.Text = "Initialize";
-            this.initializeButton.Click += new System.EventHandler(this.initializeButton_Click);
-            // 
-            // startOptimizationButton
-            // 
-            this.startOptimizationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.startOptimizationButton.Enabled = false;
-            this.startOptimizationButton.Image = ((System.Drawing.Image)(resources.GetObject("startOptimizationButton.Image")));
-            this.startOptimizationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.startOptimizationButton.Name = "startOptimizationButton";
-            this.startOptimizationButton.Size = new System.Drawing.Size(35, 22);
-            this.startOptimizationButton.Text = "Start";
-            this.startOptimizationButton.Click += new System.EventHandler(this.startOptimizationButton_Click);
-            // 
-            // stopOptimizationButton
-            // 
-            this.stopOptimizationButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.stopOptimizationButton.Enabled = false;
-            this.stopOptimizationButton.Image = ((System.Drawing.Image)(resources.GetObject("stopOptimizationButton.Image")));
-            this.stopOptimizationButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.stopOptimizationButton.Name = "stopOptimizationButton";
-            this.stopOptimizationButton.Size = new System.Drawing.Size(35, 22);
-            this.stopOptimizationButton.Text = "Stop";
-            this.stopOptimizationButton.Click += new System.EventHandler(this.stopOptimizationButton_Click);
             // 
             // batchRunOptimizationTabPage
             // 
@@ -364,7 +163,7 @@
             // 
             this.toolStrip3.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.batchRunOptimizationMethodLabel,
+            this.setOptimizationParameterButton,
             this.toolStripLabel2,
             this.numberOfBatchRunsTextBox,
             this.startBatchRunButton});
@@ -373,12 +172,6 @@
             this.toolStrip3.Size = new System.Drawing.Size(613, 25);
             this.toolStrip3.TabIndex = 0;
             this.toolStrip3.Text = "toolStrip3";
-            // 
-            // batchRunOptimizationMethodLabel
-            // 
-            this.batchRunOptimizationMethodLabel.Name = "batchRunOptimizationMethodLabel";
-            this.batchRunOptimizationMethodLabel.Size = new System.Drawing.Size(149, 22);
-            this.batchRunOptimizationMethodLabel.Text = "Optimization method: N/A";
             // 
             // toolStripLabel2
             // 
@@ -506,6 +299,16 @@
             // 
             this.openFileDialog.FileName = "openFileDialog";
             // 
+            // setOptimizationParameterButton
+            // 
+            this.setOptimizationParameterButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.setOptimizationParameterButton.Image = ((System.Drawing.Image)(resources.GetObject("setOptimizationParameterButton.Image")));
+            this.setOptimizationParameterButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.setOptimizationParameterButton.Name = "setOptimizationParameterButton";
+            this.setOptimizationParameterButton.Size = new System.Drawing.Size(154, 22);
+            this.setOptimizationParameterButton.Text = "Set optimization parameter";
+            this.setOptimizationParameterButton.Click += new System.EventHandler(this.setOptimizationParameterButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -524,16 +327,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.singleRunOptimizationTabPage.ResumeLayout(false);
-            this.singleRunOptimizationTabPage.PerformLayout();
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
-            this.toolStrip2.ResumeLayout(false);
-            this.toolStrip2.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.batchRunOptimizationTabPage.ResumeLayout(false);
             this.batchRunOptimizationTabPage.PerformLayout();
             this.toolStrip3.ResumeLayout(false);
@@ -556,33 +349,17 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private PlotLibrary.Plot2DPanel roadPlot2DPanel;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton initializeButton;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private PlotLibrary.Plot2DPanel speedProfilePlot2DPanel;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage singleRunOptimizationTabPage;
-        private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.ListBox singleRunOptimizationEvaluatedIndListBox;
-        private System.Windows.Forms.ListBox singleRunOptimizationProgressListBox;
-        private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.TabPage batchRunOptimizationTabPage;
         private System.Windows.Forms.ListBox batchRunProgressListBox;
         private System.Windows.Forms.ToolStrip toolStrip3;
-        private System.Windows.Forms.ToolStripButton setOptimizationParameterButton;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripComboBox optimizationMethodComboBox;
-        private System.Windows.Forms.ToolStripLabel batchRunOptimizationMethodLabel;
-        private System.Windows.Forms.ToolStripButton startOptimizationButton;
-        private System.Windows.Forms.ToolStripButton stopOptimizationButton;
-        private System.Windows.Forms.ToolStripLabel selectedSpeedProfileStatusLabel;
-        private System.Windows.Forms.ToolStripButton evaluateSpeedProfileButton;
-        private System.Windows.Forms.ToolStripLabel fuelConsumptionLabel;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripTextBox numberOfBatchRunsTextBox;
         private System.Windows.Forms.ToolStripButton startBatchRunButton;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton logDataButton;
+        private System.Windows.Forms.ToolStripButton setOptimizationParameterButton;
     }
 }
 

@@ -29,7 +29,7 @@ namespace EAPerformanceApplication.AddedClasses.Optimization
         [DataMember]
         public double SpeedIncrement { get; set; }
         [DataMember]
-        public int NumberOfRoadSegments { get; set; }
+        public int NumberOfSpeedPoints { get; set; }
         [DataMember]
         public double DesiredAverageSpeed { get; set; }
         [DataMember]
@@ -48,7 +48,7 @@ namespace EAPerformanceApplication.AddedClasses.Optimization
             MaximumSpeedValue = 25;
             MinimumSpeedValue = 60 / 3.6;
             SpeedIncrement = 4 / 3.6;
-            NumberOfRoadSegments = 7;
+            NumberOfSpeedPoints = 7;
             DesiredAverageSpeed = 80 / 3.6;
             OptimizationTime = 100000000;
             NumberOfGenerations = 50;            

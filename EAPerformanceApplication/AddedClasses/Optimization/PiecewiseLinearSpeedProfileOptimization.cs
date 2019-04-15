@@ -109,7 +109,7 @@ namespace EAPerformanceApplication.AddedClasses.Optimization
             crossoverProbability = optimizationSettings.CrossoverProbability;
             creepMutationRate = optimizationSettings.CreepMutationRate;
             
-            int numberOfLineSegments = optimizationSettings.NumberOfRoadSegments;
+            int numberOfLineSegments = optimizationSettings.NumberOfSpeedPoints;
 
             double minimumParameterValue = optimizationSettings.MinimumSpeedValue;
             double maximumParameterValue = optimizationSettings.MaximumSpeedValue;

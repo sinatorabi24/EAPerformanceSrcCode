@@ -58,11 +58,9 @@ namespace EAPerformanceApplication
         private void Initialize()
         {
             defaultPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "..\\..\\..\\Data");
-            batchPath = "\\batchrun" + DateTime.Now.ToString("yyyyMMddHHmmss_fff");
+            batchPath = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "..\\..\\..\\Results"); 
             optimizationSettings = new PiecewiseLinearSpeedProfileOptimizationSettings();
             optimizationSettings.SetDefault();
-            optimizationMethodComboBox.SelectedIndex = 0;
-            batchRunOptimizationMethodLabel.Text = "Optimization method: " + optimizationMethodComboBox.SelectedItem.ToString();
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,171 +70,14 @@ namespace EAPerformanceApplication
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                roadFileName = openFileDialog.FileName;
+                roadFileName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
                 metricMap = (MetricMap)ObjectXmlSerializer.ObtainSerializedObject(openFileDialog.FileName, typeof(MetricMap));
                 metricMap.GenerateTrajectories(INFORMATION_COMPRESSION, METRIC_STEP);
                 GenerateMetricPath();
             }
+            //batchPath += "\\BatchRunResult" + "_" + roadFileName + ".txt";
         }
 
-        private void initializeButton_Click(object sender, EventArgs e)
-        {
-            if (logDataButton.Checked)
-            {
-                string batchDirectoryPath = defaultPath + batchPath;
-                if (!Directory.Exists(batchDirectoryPath))
-                {
-                    Directory.CreateDirectory(batchDirectoryPath);
-                }
-            }
-
-            startOptimizationButton.Enabled = true;
-            PlotRoadProfile(roadPlot2DPanel);
-
-            singleRunOptimizationEvaluatedIndListBox.Items.Clear();
-            bestIndividualsList = new List<OptimizableStructure>();
-
-            speedProfileOptimizer = new PiecewiseLinearSpeedProfileOptimization();
-            speedProfileOptimizer.OptimizationMethod = (OptimizationMethod)Enum.Parse(typeof(OptimizationMethod), optimizationMethodComboBox.SelectedItem.ToString().Replace("-",""));
-            speedProfileOptimizer.NewBestIndividualFound += new EventHandler<EvaluatedIndividualEventArgs>(HandleNewBestIndividualFound);
-            speedProfileOptimizer.Stopped += new EventHandler(ThreadSafeHandleOptimizationCompleted);
-            speedProfileOptimizer.IndividualEvaluated += new EventHandler<EvaluatedIndividualEventArgs>(HandleIndividualEvaluated);
-
-            if (speedProfileOptimizer.OptimizationMethod == OptimizationMethod.GA)
-            {
-                speedProfileOptimizer.GenerationEvaluated += new EventHandler<EvaluatedGenerationEventArgs>(ThreadSafeHandleGenerationEvaluated);
-            }
-
-            currentBestSpeedProfileInfo += "%% GenerationIndex IndividualIndexInGeneration Fitness [SpeedProfileInfo] SpeedProfileIndex \r\n";
-
-            generationEvaluatedInfor += "%% Optimization method: " + Enum.Parse(typeof(OptimizationMethod), optimizationMethodComboBox.SelectedItem.ToString().Replace("-", "")) + "\r\n";
-            generationEvaluatedInfor += "%% Optimizaiton settings: \r\n";
-            generationEvaluatedInfor += "%% Number of generations: " + optimizationSettings.NumberOfGenerations.ToString("0") + "\r\n";
-            generationEvaluatedInfor += "%% Population size: " + optimizationSettings.PopulationSize.ToString("0") + "\r\n";
-            generationEvaluatedInfor += "%% Tournament selection rate: " + optimizationSettings.TournamentSelectionParameter.ToString("0.00") + "\r\n";
-            generationEvaluatedInfor += "%% Tournament size: " + optimizationSettings.TournamentSize.ToString("0") + "\r\n";
-            generationEvaluatedInfor += "%% Crossover probability: " + optimizationSettings.CrossoverProbability.ToString("0.00") + "\r\n";
-            generationEvaluatedInfor += "%% Relative mutation rate: " + optimizationSettings.RelativeMutationProbability.ToString("0.00") + "\r\n";
-            generationEvaluatedInfor += "%% Creep mutation rate: " + optimizationSettings.CreepMutationRate.ToString("0.00") + "\r\n";
-            generationEvaluatedInfor += "%% Generation index, IndividualIndexInGen, #EvaluatedIndividuals, bestFitness, AverageFitness, [BestIndividual index_0 ...  BestIndividual index_n-1], BestIndividualIndex \r\n";
-        }
-
-        private void HandleIndividualEvaluated(object sender, EvaluatedIndividualEventArgs e)
-        {
-            if (InvokeRequired) { this.Invoke(new MethodInvoker(() => AddEvaluatedIndividualToList(e))); }
-            else { AddEvaluatedIndividualToList(e); }
-        }
-
-        private void HandleNewBestIndividualFound(object sender, EvaluatedIndividualEventArgs e)
-        {
-            if (InvokeRequired) { Invoke(new MethodInvoker(() => ShowBestIndividualInfo(e))); }
-            else { ShowBestIndividualInfo(e); }
-        }
-
-        private void ThreadSafeHandleGenerationEvaluated(object sender, EvaluatedGenerationEventArgs e)
-        {
-            if (InvokeRequired) { this.Invoke(new MethodInvoker(() => HandleGenerationEvaluated(e))); }
-            else { HandleGenerationEvaluated(e); }
-        }
-
-        private void ThreadSafeHandleOptimizationCompleted(object sender, EventArgs e)
-        {
-            if (InvokeRequired) { this.BeginInvoke(new MethodInvoker(() => HandleOptimizationCompleted(sender, e))); }
-            else { HandleOptimizationCompleted(sender, e); }
-        }
-
-        private void HandleOptimizationCompleted(object sender, EventArgs e)
-        {
-            singleRunOptimizationProgressListBox.Enabled = true;
-        }
-
-        private void HandleGenerationEvaluated(EvaluatedGenerationEventArgs e)
-        {
-            generationEvaluatedInfor += e.GenerationIndex.ToString("0") + ", ";
-            generationEvaluatedInfor += e.NumberOfEvaluatedIndividuals.ToString("0") + ", ";
-            generationEvaluatedInfor += e.BestFitness.ToString("0.00000") + ", ";
-            generationEvaluatedInfor += e.AverageFitness.ToString("0.00000") + ", ";
-            generationEvaluatedInfor += "\r\n";
-
-            if (logDataButton.Checked)
-            {
-                string path = Path.GetFullPath(defaultPath) + "\\evaluatedGenerationsInfo.txt";
-                System.IO.File.WriteAllText(path, generationEvaluatedInfor);
-            }
-        }
-
-        private void AddEvaluatedIndividualToList(EvaluatedIndividualEventArgs e)
-        {
-            if (e.IndividualIndexInGeneration == 0)
-            {
-                singleRunOptimizationEvaluatedIndListBox.Items.Clear();
-            }
-            string itemText = e.GenerationIndex.ToString().PadLeft(5) + " " + e.IndividualIndexInGeneration.ToString().PadLeft(5) + " Fitness: " +
-                (e.Fitness).ToString("0.00000");
-            singleRunOptimizationEvaluatedIndListBox.Items.Insert(0, itemText);
-
-            int numberOfLineSegments = optimizationSettings.NumberOfRoadSegments;
-
-            if (e.IsIndividualFeasible)
-            {
-                List<double> speedSequence = new List<double>();
-
-                for (int i = 0; i < numberOfLineSegments + 1; i++)
-                {
-                    int speedIndex = ((IntParameter)e.Individual.ParameterList[i]).ParameterValue;
-                    speedSequence.Add(speedProfileOptimizer.PossibleSpeedList[speedIndex]);
-                }
-
-                PiecewiseLinearSpeedProfile tempProfile = new PiecewiseLinearSpeedProfile(metricPath, numberOfLineSegments);
-                tempProfile.Generate(metricPath, speedSequence);
-
-                PlotSpeedProfile(speedProfilePlot2DPanel, tempProfile, "Current individual");
-            }   
-        }
-
-        private void ShowBestIndividualInfo(EvaluatedIndividualEventArgs e)
-        {
-            bestIndividualsList.Insert(0, e.Individual.Copy());
-
-            string path = Path.GetFullPath(defaultPath) + "\\bestIndividualsList.txt";
-
-            int numberOfLineSegments = optimizationSettings.NumberOfRoadSegments;
-            List<double> speedSequence = new List<double>();
-            List<int> speedSequenceIndexList = new List<int>();
-            
-            currentBestSpeedProfileInfo += e.GenerationIndex.ToString("0") + ", ";
-            currentBestSpeedProfileInfo += e.IndividualIndexInGeneration.ToString("0") + ", ";
-            currentBestSpeedProfileInfo += e.Fitness.ToString("0.00000") + ", [";
-
-            for (int i = 0; i < numberOfLineSegments + 1; i++)
-            {
-                int speedIndex = ((IntParameter)e.Individual.ParameterList[i]).ParameterValue;
-                speedSequenceIndexList.Add(speedIndex);
-                speedSequence.Add(speedProfileOptimizer.PossibleSpeedList[speedIndex]);
-                currentBestSpeedProfileInfo += speedIndex.ToString("0") + " ";
-            }
-            currentBestSpeedProfileInfo += "], ";
-            long index = GetIndexFromValues(speedSequenceIndexList, speedProfileOptimizer.PossibleSpeedList.Count);
-            currentBestSpeedProfileInfo += index.ToString("0") + "\r\n";
-
-            PiecewiseLinearSpeedProfile tempProfile = new PiecewiseLinearSpeedProfile(metricPath, numberOfLineSegments);
-            tempProfile.Generate(metricPath, speedSequence);
-
-            if (logDataButton.Checked)
-            {
-                System.IO.File.WriteAllText(path, currentBestSpeedProfileInfo);
-            }
-
-            double averageSpeed = tempProfile.ComputeAverageSpeed(metricPath);
-            string itemText = e.GenerationIndex.ToString().PadLeft(5) + " " + e.IndividualIndexInGeneration.ToString().PadLeft(5) +
-                " Fitness: " + e.Fitness.ToString("0.00000") +
-                " Fuel consumption: " + (1 / e.Fitness).ToString("0.0000") +
-                " Average speed: " + averageSpeed.ToString("0.00");
-
-            singleRunOptimizationProgressListBox.Items.Insert(0, itemText);
-            PlotSpeedProfile(speedProfilePlot2DPanel, tempProfile, "Best individual");
-        }
-        
         private void PlotSpeedProfile(Plot2DPanel speedProfilePlot2DPanel, PiecewiseLinearSpeedProfile speedProfile, string selectedItem)
         {
             if(selectedItem == "Batch run") {  }
@@ -367,26 +208,6 @@ namespace EAPerformanceApplication
             settingsForm.Show();
         }
 
-        private void startOptimizationButton_Click(object sender, EventArgs e)
-        {
-            singleRunOptimizationProgressListBox.Enabled = false;
-            setOptimizationParameterButton.Enabled = false;
-            startOptimizationButton.Enabled = false;
-            initializeButton.Enabled = false;
-            stopOptimizationButton.Enabled = true;
-
-            speedProfileOptimizer.Run(optimizationSettings, new Random(), optimizationSettings.OptimizationTime, metricMap, metricPath);
-        }
-
-        private void stopOptimizationButton_Click(object sender, EventArgs e)
-        {
-            speedProfileOptimizer.Stop();
-
-            setOptimizationParameterButton.Enabled = true;
-            startOptimizationButton.Enabled = true;
-            initializeButton.Enabled = true;
-        }
-
         private void GenerateMetricPath()
         {
             // Generate path:
@@ -400,80 +221,12 @@ namespace EAPerformanceApplication
             metricPath.ComputeSegmentLengths(0.1);
         }
 
-        private void singleRunOptimizationProgressListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            singleRunOptimizationProgressListBox.Enabled = false;
-            int selectedIndex = singleRunOptimizationProgressListBox.SelectedIndex;
-            if (selectedIndex >= 0)
-            {
-                speedProfileToBeEvaluated = bestIndividualsList[selectedIndex].Copy();
-
-                evaluateSpeedProfileButton.Enabled = true;
-                selectedSpeedProfileStatusLabel.Enabled = true;
-                selectedSpeedProfileStatusLabel.Text = "Speed profile selected.";
-            }
-        }
-
-        private void evaluateSpeedProfileButton_Click(object sender, EventArgs e)
-        {
-            PiecewiseLinearSpeedProfileEvaluator reEvaluate = new PiecewiseLinearSpeedProfileEvaluator();
-            reEvaluate.AssignMetricMap(metricMap);
-            reEvaluate.AssignMetricPath(metricPath);
-            reEvaluate.MaximumAllowedSpeed = optimizationSettings.MaximumSpeedValue;
-            reEvaluate.MinimumAllowedSpeed = optimizationSettings.MinimumSpeedValue;
-            reEvaluate.DesiredAverageSpeed = optimizationSettings.DesiredAverageSpeed;
-            reEvaluate.AssignPossibleSpeedList(speedProfileOptimizer.PossibleSpeedList);
-            reEvaluate.EvaluateGA(speedProfileToBeEvaluated);
-
-            fuelConsumptionLabel.Text = "Fuel consumption: " + reEvaluate.FuelConsumption.ToString("0.00000");
-            singleRunOptimizationProgressListBox.Enabled = true;
-            evaluateSpeedProfileButton.Enabled = false;
-
-            List<double> speedSequence = new List<double>();
-
-            for (int i = 0; i < optimizationSettings.NumberOfRoadSegments + 1; i++)
-            {
-                int speedIndex = ((IntParameter)speedProfileToBeEvaluated.ParameterList[i]).ParameterValue;
-                speedSequence.Add(speedProfileOptimizer.PossibleSpeedList[speedIndex]);
-            }
-            PiecewiseLinearSpeedProfile tempProfile = new PiecewiseLinearSpeedProfile(metricPath, optimizationSettings.NumberOfRoadSegments);
-            tempProfile.Generate(metricPath, speedSequence);
-
-            speedProfilePlot2DPanel.RemoveSeries("Best individual");
-            speedProfilePlot2DPanel.RemoveSeries("Current individual");
-            speedProfilePlot2DPanel.RemoveSeries("Selected individual");
-
-            List<double> speedCurveHorizontalAxisData = new List<double>();
-            List<double> speedCurveVerticalAxisData = new List<double>();
-
-            speedCurveVerticalAxisData = reEvaluate.LoggedData.LogItemList.Find(i => i.Name == "Speed").ValueList;
-            speedCurveHorizontalAxisData = reEvaluate.LoggedData.LogItemList.Find(i => i.Name == "X").ValueList;
-            speedCurveVerticalAxisData.RemoveAt(0);
-            speedCurveHorizontalAxisData.RemoveAt(0);
-
-            PlotData(speedProfilePlot2DPanel, speedCurveHorizontalAxisData, speedCurveVerticalAxisData);
-            PlotSpeedProfile(speedProfilePlot2DPanel, tempProfile, "Selected individual");
-        }
-
         private void startBatchRunButton_Click(object sender, EventArgs e)
         {
-            if (logDataButton.Checked)
-            {
-                string batchDirectoryPath = defaultPath + batchPath;
-                if (!Directory.Exists(batchDirectoryPath))
-                {
-                    Directory.CreateDirectory(batchDirectoryPath);
-                }
-            }
-
             startBatchRunButton.Enabled = false;
             batchRunProgressListBox.Enabled = false;
 
-            batchRunGenerationEvaluatedInfo += "%% Generation index, IndividualIndexInGen, #EvaluatedIndividuals, populationDiversity, bestFitness, AverageFitness, [BestIndividual index_0 ...  BestIndividual index_n-1], BestIndividualIndex, [AverageIndividual] \r\n";
-            batchRunIndividualEvaluatedInfo += "%% ID Fitness Chromosome Index\r\n";
-
-            batchRunInfo += "%% Optimization method: " + Enum.Parse(typeof(OptimizationMethod), optimizationMethodComboBox.SelectedItem.ToString().Replace("-","")) + "\r\n";
-            batchRunInfo += "%% Optimization settings: \r\n";
+            batchRunInfo += "%% Optimization method: " + Enum.Parse(typeof(OptimizationMethod), OptimizationMethod.GA.ToString()) + "\r\n";
             batchRunInfo += "%% Number of generations: " + optimizationSettings.NumberOfGenerations.ToString("0") + "\r\n";
             batchRunInfo += "%% Population size: " + optimizationSettings.PopulationSize.ToString("0") + "\r\n";
             batchRunInfo += "%% Tournament selection rate: " + optimizationSettings.TournamentSelectionParameter.ToString("0.00") + "\r\n";
@@ -481,14 +234,14 @@ namespace EAPerformanceApplication
             batchRunInfo += "%% Crossover probability: " + optimizationSettings.CrossoverProbability.ToString("0.00") + "\r\n";
             batchRunInfo += "%% Relative mutation rate: " + optimizationSettings.RelativeMutationProbability.ToString("0.00") + "\r\n";
             batchRunInfo += "%% Creep mutation rate: " + optimizationSettings.CreepMutationRate.ToString("0.00") + "\r\n";
+            batchRunInfo += "%% Road file name " + roadFileName + "\r\n";
             batchRunInfo += "%% RunID, BestFitness(=1/fc), AverageFitness, [variables], IndexOfTheVariableVector, NumberOfEvaluatedIndividuals \r\n";
-            batchRunInfo += "%% Road file name " + roadFileName + "\r\n"; 
 
             PlotRoadProfile(roadPlot2DPanel);
             batchRunProgressListBox.Items.Clear();
             bestIndividualsList = new List<OptimizableStructure>();
 
-            OptimizationMethod optimizationMethod = (OptimizationMethod)Enum.Parse(typeof(OptimizationMethod), optimizationMethodComboBox.SelectedItem.ToString().Replace("-",""));
+            OptimizationMethod optimizationMethod = OptimizationMethod.GA;
 
             int numberOfBatchRuns = int.Parse(numberOfBatchRunsTextBox.Text);
             batchRunThread = new Thread(new ThreadStart(() => BatchRunLoop(numberOfBatchRuns, optimizationSettings, optimizationMethod)));
@@ -501,7 +254,6 @@ namespace EAPerformanceApplication
             {
                 speedProfileOptimizer = new PiecewiseLinearSpeedProfileOptimization();
                 speedProfileOptimizer.OptimizationMethod = optimizationMethod;
-                speedProfileOptimizer.GenerationEvaluated += new EventHandler<EvaluatedGenerationEventArgs>(ThreadSafeHandleBatchRunGenerationEvaluated);
                 speedProfileOptimizer.IndividualEvaluated += new EventHandler<EvaluatedIndividualEventArgs>(ThreadSafeHandleBatchRunIndividualEvaluated);
 
                 speedProfileOptimizer.RunSynchronous(optimizationSettings, new Random(), optimizationSettings.OptimizationTime, metricMap, metricPath);
@@ -515,7 +267,7 @@ namespace EAPerformanceApplication
                 List<double> speedSequence = new List<double>();
                 List<int> speedSequenceIndexList = new List<int>();
 
-                for (int i = 0; i < optimizationSettings.NumberOfRoadSegments + 1; i++)
+                for (int i = 0; i < optimizationSettings.NumberOfSpeedPoints + 1; i++)
                 {
                     int speedIndex = ((IntParameter)optimizedProfile.ParameterList[i]).ParameterValue;
                     speedSequenceIndexList.Add(speedIndex);
@@ -531,14 +283,6 @@ namespace EAPerformanceApplication
                                 speedProfileIndex.ToString("0").PadLeft(13) + " " +
                                 numberOfEvaluatedIndividuals.ToString("0").PadLeft(6) + "\r\n";
 
-                if (logDataButton.Checked)
-                {
-                    string generationPath = Path.GetFullPath(defaultPath) + batchPath + "\\evaluatedIndividualInfoBatchID" + iRun.ToString("0") + ".txt";
-                    System.IO.File.WriteAllText(generationPath, batchRunIndividualEvaluatedInfo);
-                }
-                batchRunIndividualEvaluatedInfo = "%% ID Fitness Chromosome Index\r\n";
-                batchRunGenerationEvaluatedInfo = "%% GenerationIndex, IndividualIndexInGen, #EvaluatedIndividuals, populationDiversity, bestFitness, AverageFitness, [BestIndividual index_0 ...  BestIndividual index_n-1], BestIndividualIndex, [averageIndivudal] \r\n";
-
                 ThreadSafeShowResult(numberOfEvaluatedIndividuals, bestScore, averageScore, iRun, optimizedProfile);
             }
 
@@ -546,17 +290,8 @@ namespace EAPerformanceApplication
             else { startBatchRunButton.Enabled = true; }
             if (InvokeRequired) { this.BeginInvoke(new MethodInvoker(() => batchRunProgressListBox.Enabled = true)); }
             else { batchRunProgressListBox.Enabled = true; }
-            if (logDataButton.Checked)
-            {
-                string path = Path.GetFullPath(defaultPath) + batchPath + "\\batchRunInfo.txt";
-                System.IO.File.WriteAllText(path, batchRunInfo);
-            }
-        }
-
-        private void ThreadSafeHandleBatchRunGenerationEvaluated(object sender, EvaluatedGenerationEventArgs e)
-        {
-            if (InvokeRequired) { this.Invoke(new MethodInvoker(() => HandleBatchRunGenerationEvaluated(e))); }
-            else { HandleBatchRunGenerationEvaluated(e); }
+            string path = batchPath + "\\BatchRunResult" + "_" + roadFileName + ".txt";
+            System.IO.File.WriteAllText(path, batchRunInfo);            
         }
 
         private void ThreadSafeHandleBatchRunIndividualEvaluated(object sender, EvaluatedIndividualEventArgs e)
@@ -595,15 +330,6 @@ namespace EAPerformanceApplication
             
         }
 
-        private void HandleBatchRunGenerationEvaluated(EvaluatedGenerationEventArgs e)
-        {
-            batchRunGenerationEvaluatedInfo += e.GenerationIndex.ToString("0").PadLeft(3) + ", ";
-            batchRunGenerationEvaluatedInfo += e.NumberOfEvaluatedIndividuals.ToString("0").PadLeft(5) + ", ";
-            batchRunGenerationEvaluatedInfo += e.BestFitness.ToString("0.00000").PadLeft(9) + ", ";
-            batchRunGenerationEvaluatedInfo += e.AverageFitness.ToString("0.00000").PadLeft(9) + ", ";
-            batchRunGenerationEvaluatedInfo += "\r\n";
-        }
-
         private void ThreadSafeShowResult(int numberOfEvaluatedIndividuals, double bestScore, double averageScore, int iRun, OptimizableStructure optimizedProfile)
         {
             if (InvokeRequired) { Invoke(new MethodInvoker(() => ShowBatchResult(numberOfEvaluatedIndividuals, bestScore, averageScore, iRun, optimizedProfile))); }
@@ -618,13 +344,13 @@ namespace EAPerformanceApplication
 
             List<double> speedSequence = new List<double>();
 
-            for (int i = 0; i < optimizationSettings.NumberOfRoadSegments + 1; i++)
+            for (int i = 0; i < optimizationSettings.NumberOfSpeedPoints + 1; i++)
             {
                 int speedIndex = ((IntParameter)optimizedProfile.ParameterList[i]).ParameterValue;
                 speedSequence.Add(speedProfileOptimizer.PossibleSpeedList[speedIndex]);
             }
 
-            PiecewiseLinearSpeedProfile tempProfile = new PiecewiseLinearSpeedProfile(metricPath, optimizationSettings.NumberOfRoadSegments);
+            PiecewiseLinearSpeedProfile tempProfile = new PiecewiseLinearSpeedProfile(metricPath, optimizationSettings.NumberOfSpeedPoints);
             tempProfile.Generate(metricPath, speedSequence);
             PlotSpeedProfile(speedProfilePlot2DPanel, tempProfile, "Batch run");
             
